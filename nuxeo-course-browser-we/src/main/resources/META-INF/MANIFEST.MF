@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: .
+Bundle-Name: nuxeo-course-browser-we
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-Vendor: Nuxeo
+Bundle-Version: 7.1.qualifier
+Bundle-ManifestVersion: 2
+Bundle-SymbolicName: nuxeo-course-browser-we
+Nuxeo-WebModule: org.nuxeo.ecm.webengine.app.WebEngineModule;name=course;extends=base;package=org/nuxeo/course
