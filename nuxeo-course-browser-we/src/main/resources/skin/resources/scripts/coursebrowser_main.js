@@ -1,6 +1,17 @@
 /*
 */ 
 
+var Region = function (name) {
+  this.name = name;
+  this.fullTextSearch = "";
+  this.titleSearch = "";
+  this.nxClient = new nuxeo.Client({timeout: 10000});
+  this.nxClient.schema(["dublincore", "file", "course","course_instance"]);
+  this.displayName= function(){  // Method which will display name
+	    console.log(this.name);
+}
+}
+
 
 function renderQueryResults(error, data) {
 	if (error) {
@@ -51,9 +62,8 @@ function doQuery() {
 }
 
 function doInit() {
-	initialValue="";
-	nxClient = new nuxeo.Client({timeout: 10000});
-	nxClient.schema(["dublincore", "file"]);
+	var region  = new Region (regionName);
+	region.displayName();
 }
 
 
