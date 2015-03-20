@@ -1,70 +1,54 @@
 /*
-*/ 
+ */ 
+var newSearchResultsEvent =new Event('newSearchDone');
+
 
 var Region = function (name) {
-  this.name = name;
-  this.fullTextSearch = "";
-  this.titleSearch = "";
-  this.nxClient = new nuxeo.Client({timeout: 10000});
-  this.nxClient.schema(["dublincore", "file", "course","course_instance"]);
-  this.displayName= function(){  // Method which will display name
-	    console.log(this.name);
-}
-}
-
-
-function renderQueryResults(error, data) {
-	if (error) {
-		throw error;
-		}
-	else {
-		var documents=new Object();
-		if(data) {
-			documents=data;
-		}
-		else {
-			documents.noQuery=true;
-		}
-		documents.serverURL=serverURL;
-		documents.pictureUrlExtension='nxpicsfile/default/';
-		documents.thumbnailSize='/Small:content/';
-		documents.initialValue=initialValue;
-      	$.Mustache.load('./skin/searchframe/mustache/queryResultsTemplate.html').done(function(){
-          var content = $.Mustache.render('query-results', documents);
-      		 $('#results').html(content);
-      		content = $.Mustache.render('previous-value', documents);
-     		 $('#previousValue').html(content);
-      		 })
-      	}
-}
-	
-// Being Called when the search button is clicked ==============================
-function doQuery() {
-	if(document.getElementById("searchField")){
-		var searchString =  document.getElementById("searchField").value; 
-
-	}
-	else {
-		var searchString = "";
-	}
-    //document.getElementById("search-terms").innerHTML = "You searched: ".concat(searchString);
-	if(searchString!="") {
-	    nxClient.operation("Document.Query").params({
+	this.name = name;
+	this.fullTextSearch = "";
+	this.titleSearch = "";
+	this.nxClient = new nuxeo.Client({timeout: 10000});
+	this.nxClient.schema(["dublincore", "file", "course","course_instance"]);
+	this.runSearchAndSetResults = function(){
+		var self=this;
+		this.nxClient.operation("Document.Query").params({
 			query: "select * from Document where ecm:mixinType != 'HiddenInNavigation' AND " +
-					"ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted' AND " +
-					"ecm:mixinType != 'Folderish' AND ecm:primaryType='Picture' AND dc:title ilike '"+ searchString+"%'"})
-			.execute(renderQueryResults);		
-	}
-	else {
-		renderQueryResults();
-		}
+			"ecm:isCheckedInVersion = 0 AND ecm:currentLifeCycleState != 'deleted' AND " +
+			"ecm:mixinType != 'Folderish' AND ecm:primaryType='Course' AND dc:title ilike '"+ this.titleSearch+"%'"})
+			.execute(function(error,data){
+				if (error) {
+					throw error;
+				}
+				else {
+					self.courses=data;
+					document.dispatchEvent(newSearchResultsEvent);
+				}
 
+			});
+	}
 }
 
 function doInit() {
-	var region  = new Region (regionName);
-	region.displayName();
+	currentRegion = new Region(regionName);
+	$.Mustache.load('../../skin/course/mustache/coursebrowserTemplates.html').done(function(){
+        var content = $.Mustache.render('page-structure-'+currentRegion.name, currentRegion);
+        $('#regionBody').html(content);
+    	});
+	document.addEventListener('newSearchDone', function (e) {renderResultTemplate();}, false);
+	currentRegion.titleSearch = "Nuxeo";
 }
+
+function renderResultTemplate(){
+	console.log(currentRegion);
+	$.Mustache.load('../../skin/course/mustache/coursebrowserTemplates.html').done(function(){
+        var content = $.Mustache.render('results-'+currentRegion.name, currentRegion.courses);
+        $('#results').html(content);
+    	});
+}
+
+
+
+
 
 
 

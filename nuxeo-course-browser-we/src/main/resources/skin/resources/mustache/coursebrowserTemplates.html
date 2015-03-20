@@ -1,0 +1,26 @@
+<script id="page-structure-california" type="text/html">
+
+			<div class="row">
+				<h1>{{name}} tutu</h1>
+			</div>
+			<div class="row">
+				<button type="button" class="btn btn-info" onclick="currentRegion.runSearchAndSetResults()">Info</button>
+			</div>
+			<div class="row" id="results">
+				<p>there will be some results here</p>
+			</div>
+
+</script>
+
+<script id="results-california" type="text/html">
+		{{#entries}}
+			<div class="col-md-4">
+				</h2>{{title}}</h2>
+			</div>
+		{{/entries}}
+		{{^entries}}
+			<div class="col-md-4">
+			</h2>No Result</h2>
+			</div>
+		{{/entries}}
+</script>

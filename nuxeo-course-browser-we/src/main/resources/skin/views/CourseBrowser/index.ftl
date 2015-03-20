@@ -1,14 +1,13 @@
-<@extends src="base.ftl"> <@block name="content">
-
-
-	<div class="pure-g" id="selectRegionDiv">
-		<div class="pure-u-1-2">
-			<a href="${This.path}/region/california">California</a>
+ <@extends src="base.ftl"> <@block name="title"> Region selector
+</@block> <@block name="content">
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<a href="${This.path}/region/california" class="btn btn-primary btn-lg btn-block">California</a>
 		</div>
-		<div class="pure-u-1-2">
-			<a href="${This.path}/region/newyork">New York</a>
+		<div class="col-md-6">
+			<a href="${This.path}/region/newyork" class="btn btn-primary btn-lg btn-block">New York</a>
 		</div>
 	</div>
-
-
+</div>
 </@block> </@extends>
