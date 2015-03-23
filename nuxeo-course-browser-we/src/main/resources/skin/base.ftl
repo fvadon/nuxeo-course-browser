@@ -16,8 +16,7 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" href="${skinPath}/css/site.css" type="text/css"
-	media="screen" charset="utf-8">
+
 <@block name="stylesheets" /> <@block name="header_scripts" />
 <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>

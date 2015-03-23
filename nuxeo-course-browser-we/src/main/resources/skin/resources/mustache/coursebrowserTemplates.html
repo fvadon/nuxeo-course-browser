@@ -1,21 +1,109 @@
 <script id="page-structure-california" type="text/html">
+	<nav class="navbar navbar-default">
+		<div class="navbar-header">
+			<div class="navbar-brand">California</div>
+		</div>
+		<form class="navbar-form">
+			<div class="input-group">
+  				<span class="input-group-addon" id="addon-title">Title</span>
+  				<input type="text" class="form-control"  aria-describedby="addon-title" id="title-search-field">
+			</div>
+			<div class="input-group">
+  				<span class="input-group-addon" id="addon-fulltext">Full-text</span>
+  				<input type="text" class="form-control"  aria-describedby="addon-fulltext" id="fulltext-search-field">
+			</div>
+			<button type="button" class="btn btn-primary" id="search-button" >Search</button>
+		</form>
 
-			<div class="row">
-				<h1>{{name}} tutu</h1>
-			</div>
-			<div class="row">
-				<button type="button" class="btn btn-info" onclick="currentRegion.runSearchAndSetResults()">Info</button>
-			</div>
-			<div class="row" id="results">
-				<p>there will be some results here</p>
-			</div>
+	</nav>
 
+	<div class="container">
+		<div class="row" id="results">
+			<div class="well">
+				<p>You can run a search with the menu above</p>
+			</div>
+		</div>
+	</div>
 </script>
 
 <script id="results-california" type="text/html">
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Expiration date</th>
+				<th>Download</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#entries}}
+				<tr>
+					<td>{{title}}</td>
+					<td>
+						{{simplifyExpirationDate}}
+					</td>
+					<td>
+						{{#properties.file:filename}}
+							<a href="{{serverURL}}nxbigfile/{{repository}}/{{uid}}/file:content/{{properties.file:filename}}" class="btn btn-primary">Download</a>
+						{{/properties.file:filename}}
+					</td>
+				</tr>
+		{{/entries}}
+		</tbody>
+	</table>
+	{{^entries}}
+		<div class="col-md-4">
+		</h2>No Result</h2>
+		</div>
+	{{/entries}}
+</script>
+
+<script id="page-structure-newyork" type="text/html">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<h1>New York</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<form class="form">
+					<div class="form-group">
+							<label for="title-search-field">Title</label>
+							<input type="text" id="title-search-field" class="form-control" placeholder="type in">
+					</div>
+					<div class="form-group">
+							<label for="fulltext-search-field">Full-text</label>
+							<input type="text" id="fulltext-search-field" class="form-control" placeholder="type in">
+					</div>
+					<button type="button" class="btn btn-warning" id="search-button" >Search</button>
+				</form>
+			</div>
+			<div class="col-md-9">
+				<div class="row" id="results">
+					<div class="well">
+						<p>You can run a search from the menu on the left</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</script>
+
+<script id="results-newyork" type="text/html">
 		{{#entries}}
 			<div class="col-md-4">
-				</h2>{{title}}</h2>
+				<div class="panel panel-warning">
+					<div class="panel-heading"><h3 class="panel-title">{{title}}</h3></div>
+					<div class="panel-body">
+						<p><strong>{{properties.dc:description}}</strong></p>
+						<p>Expires: {{simplifyExpirationDate}}</p>
+						{{#properties.file:filename}}
+							<a href="{{serverURL}}nxbigfile/{{repository}}/{{uid}}/file:content/{{properties.file:filename}}" class="btn btn-warning">Download</a>
+						{{/properties.file:filename}}
+					</div>
+				</div>
 			</div>
 		{{/entries}}
 		{{^entries}}
